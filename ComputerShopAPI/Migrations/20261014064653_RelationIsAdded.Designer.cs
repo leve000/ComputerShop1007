@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComputerShopAPI.Migrations
 {
     [DbContext(typeof(CmpShopDbContext))]
-    [Migration("20261007085558_InitialDb4")]
-    partial class InitialDb4
+    [Migration("20261014064653_RelationIsAdded")]
+    partial class RelationIsAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,40 @@ namespace ComputerShopAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("ComputerShopAPI.Models.Computer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(36)
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<float>("Display")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Memory")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("OsysId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("varchar(40)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OsysId");
+
+                    b.ToTable("Computers");
+                });
 
             modelBuilder.Entity("ComputerShopAPI.Models.Osystem", b =>
                 {
@@ -48,6 +82,17 @@ namespace ComputerShopAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Osystems");
+                });
+
+            modelBuilder.Entity("ComputerShopAPI.Models.Computer", b =>
+                {
+                    b.HasOne("ComputerShopAPI.Models.Osystem", "Osys")
+                        .WithMany()
+                        .HasForeignKey("OsysId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Osys");
                 });
 #pragma warning restore 612, 618
         }

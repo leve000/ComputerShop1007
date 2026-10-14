@@ -123,3 +123,4 @@ C:\Users\Gyurcsaklj\Desktop\2026-27\ComputerShopAPI\ComputerShopAPI\obj\Debug\ne
 C:\Users\Gyurcsaklj\Desktop\2026-27\ComputerShopAPI\ComputerShopAPI\obj\Debug\net10.0\ComputerShopAPI.pdb
 C:\Users\Gyurcsaklj\Desktop\2026-27\ComputerShopAPI\ComputerShopAPI\obj\Debug\net10.0\ComputerShopAPI.genruntimeconfig.cache
 C:\Users\Gyurcsaklj\Desktop\2026-27\ComputerShopAPI\ComputerShopAPI\obj\Debug\net10.0\ref\ComputerShopAPI.dll
+C:\Users\Gyurcsaklj\Desktop\2026-27\ComputerShopAPI\ComputerShopAPI\obj\Debug\net10.0\ComputerShopAPI.sourcelink.json

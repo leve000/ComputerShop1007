@@ -16,4 +16,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="https://linnea-bakshi.github.io/gha-doctor/schema/gha-doctor-config.schema.json" /></VisualStudio></ProjectExtensions>
+
 </Project>

@@ -1,5 +1,68 @@
 [
   {
+    "ContainingType": "ComputerShopAPI.Controllers.ComputerController",
+    "Method": "AddNewComputer",
+    "RelativePath": "api/Computer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addNewComputerDto",
+        "Type": "ComputerShopAPI.Models.DTOs.AddNewComputerDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerShopAPI.Controllers.ComputerController",
+    "Method": "UpdateComputer",
+    "RelativePath": "api/Computer",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "updateComputerDto",
+        "Type": "ComputerShopAPI.Models.DTOs.UpdateComputerDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerShopAPI.Controllers.ComputerController",
+    "Method": "DeleteComputer",
+    "RelativePath": "api/Computer",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerShopAPI.Controllers.ComputerController",
+    "Method": "GetAllComputer",
+    "RelativePath": "api/Computer/getAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ComputerShopAPI.Controllers.OsystemController",
     "Method": "AddNewOsystem",
     "RelativePath": "api/Osystem",
