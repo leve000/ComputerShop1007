@@ -107,6 +107,247 @@
         }
       }
     },
+    "/api/query/os": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/computers": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/os/{id}": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/computer/{id}": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/os-computer-count": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/brand/{brand}": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "parameters": [
+          {
+            "name": "brand",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/computers-sorted": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/min-display/{size}": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "parameters": [
+          {
+            "name": "size",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/os-stats": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/by-os": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/os-without-computers": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/max-memory-by-os": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/filters": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "parameters": [
+          {
+            "name": "minMemory",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "minOsVersion",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/latest": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/query/brand-summary": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Osystem/getAll": {
       "get": {
         "tags": [

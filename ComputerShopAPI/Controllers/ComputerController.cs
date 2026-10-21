@@ -76,5 +76,368 @@ namespace ComputerShopAPI.Controllers
             }
             return StatusCode(404, new { message = "Sikertelen törlés" });
         }
+
+        [HttpGet("~/api/query/os")]
+        public object GetOsystemsWithComputers()
+        {
+            var osystems = context.Osystems
+                .Select(os => new
+                {
+                    os.Id,
+                    os.Name,
+                    os.Version,
+                    os.RegisterTime,
+                    os.UpdateTime,
+                    Computers = context.Computers
+                        .Where(computer => computer.Osys.Id == os.Id)
+                        .Select(computer => new
+                        {
+                            computer.Id,
+                            computer.Brand,
+                            computer.Type,
+                            computer.Display,
+                            computer.Memory,
+                            computer.CreatedTime
+                        }).ToList()
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = osystems };
+        }
+
+        [HttpGet("~/api/query/computers")]
+        public object GetComputersWithOsystems()
+        {
+            var computers = context.Computers
+                .Include(computer => computer.Osys)
+                .Select(computer => new
+                {
+                    computer.Id,
+                    computer.Brand,
+                    computer.Type,
+                    computer.Display,
+                    computer.Memory,
+                    computer.CreatedTime,
+                    Osystem = new
+                    {
+                        computer.Osys.Id,
+                        computer.Osys.Name,
+                        computer.Osys.Version
+                    }
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = computers };
+        }
+
+        [HttpGet("~/api/query/os/{id:guid}")]
+        public ActionResult<object> GetOsystemWithComputers(Guid id)
+        {
+            var osystem = context.Osystems
+                .Where(os => os.Id == id)
+                .Select(os => new
+                {
+                    os.Id,
+                    os.Name,
+                    os.Version,
+                    os.RegisterTime,
+                    os.UpdateTime,
+                    Computers = context.Computers
+                        .Where(computer => computer.Osys.Id == os.Id)
+                        .Select(computer => new
+                        {
+                            computer.Id,
+                            computer.Brand,
+                            computer.Type,
+                            computer.Display,
+                            computer.Memory,
+                            computer.CreatedTime
+                        }).ToList()
+                })
+                .FirstOrDefault();
+
+            if (osystem == null)
+                return NotFound(new { message = "Osystem nem található" });
+
+            return Ok(new { message = "Sikeres lekérdezés", result = osystem });
+        }
+
+        [HttpGet("~/api/query/computer/{id:guid}")]
+        public ActionResult<object> GetComputerWithOsystem(Guid id)
+        {
+            var computer = context.Computers
+                .Where(computer => computer.Id == id)
+                .Select(computer => new
+                {
+                    computer.Id,
+                    computer.Brand,
+                    computer.Type,
+                    computer.Display,
+                    computer.Memory,
+                    computer.CreatedTime,
+                    Osystem = new
+                    {
+                        computer.Osys.Id,
+                        computer.Osys.Name,
+                        computer.Osys.Version
+                    }
+                })
+                .FirstOrDefault();
+
+            if (computer == null)
+                return NotFound(new { message = "Computer nem található" });
+
+            return Ok(new { message = "Sikeres lekérdezés", result = computer });
+        }
+
+        [HttpGet("~/api/query/os-computer-count")]
+        public object GetOsystemComputerCounts()
+        {
+            var osystems = context.Osystems
+                .Select(os => new
+                {
+                    os.Id,
+                    os.Name,
+                    os.Version,
+                    ComputerCount = context.Computers.Count(computer => computer.Osys.Id == os.Id)
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = osystems };
+        }
+
+        [HttpGet("~/api/query/brand/{brand}")]
+        public object GetComputersByBrand(string brand)
+        {
+            var computers = context.Computers
+                .Where(computer => computer.Brand == brand)
+                .Select(computer => new
+                {
+                    computer.Id,
+                    computer.Brand,
+                    computer.Type,
+                    computer.Display,
+                    computer.Memory,
+                    computer.CreatedTime,
+                    Osystem = new
+                    {
+                        computer.Osys.Id,
+                        computer.Osys.Name,
+                        computer.Osys.Version
+                    }
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = computers };
+        }
+
+        [HttpGet("~/api/query/computers-sorted")]
+        public object GetComputersSorted()
+        {
+            var computers = context.Computers
+                .OrderBy(computer => computer.Brand)
+                .ThenBy(computer => computer.Type)
+                .Select(computer => new
+                {
+                    computer.Id,
+                    computer.Brand,
+                    computer.Type,
+                    computer.Display,
+                    computer.Memory,
+                    computer.CreatedTime,
+                    Osystem = new
+                    {
+                        computer.Osys.Id,
+                        computer.Osys.Name,
+                        computer.Osys.Version
+                    }
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = computers };
+        }
+
+        [HttpGet("~/api/query/min-display/{size}")]
+        public object GetComputersWithMinimumDisplay(double size)
+        {
+            var computers = context.Computers
+                .Where(computer => computer.Display > size)
+                .Select(computer => new
+                {
+                    computer.Id,
+                    computer.Brand,
+                    computer.Type,
+                    computer.Display,
+                    computer.Memory,
+                    computer.CreatedTime,
+                    Osystem = new
+                    {
+                        computer.Osys.Id,
+                        computer.Osys.Name,
+                        computer.Osys.Version
+                    }
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = computers };
+        }
+
+        [HttpGet("~/api/query/os-stats")]
+        public object GetOsystemStatistics()
+        {
+            var statistics = context.Osystems
+                .Select(os => new
+                {
+                    os.Id,
+                    os.Name,
+                    os.Version,
+                    ComputerCount = context.Computers.Count(computer => computer.Osys.Id == os.Id),
+                    AverageMemory = context.Computers
+                        .Where(computer => computer.Osys.Id == os.Id)
+                        .Select(computer => (double?)computer.Memory)
+                        .Average(),
+                    AverageDisplay = context.Computers
+                        .Where(computer => computer.Osys.Id == os.Id)
+                        .Select(computer => (double?)computer.Display)
+                        .Average()
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = statistics };
+        }
+
+        [HttpGet("~/api/query/by-os")]
+        public object GetComputersGroupedByOsystem()
+        {
+            var computersByOsystem = context.Osystems
+                .Select(os => new
+                {
+                    Osystem = os.Name,
+                    Computers = context.Computers
+                        .Where(computer => computer.Osys.Id == os.Id)
+                        .Select(computer => new
+                        {
+                            computer.Id,
+                            computer.Brand,
+                            computer.Type,
+                            computer.Display,
+                            computer.Memory,
+                            computer.CreatedTime
+                        })
+                        .ToList()
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = computersByOsystem };
+        }
+
+        [HttpGet("~/api/query/os-without-computers")]
+        public object GetOsystemsWithoutComputers()
+        {
+            var osystems = context.Osystems
+                .Where(os => !context.Computers.Any(computer => computer.Osys.Id == os.Id))
+                .Select(os => new
+                {
+                    os.Id,
+                    os.Name,
+                    os.Version,
+                    os.RegisterTime,
+                    os.UpdateTime
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = osystems };
+        }
+
+        [HttpGet("~/api/query/max-memory-by-os")]
+        public object GetHighestMemoryComputerByOsystem()
+        {
+            var computers = context.Osystems
+                .Where(os => context.Computers.Any(computer => computer.Osys.Id == os.Id))
+                .Select(os => context.Computers
+                    .Where(computer => computer.Osys.Id == os.Id)
+                    .OrderByDescending(computer => computer.Memory)
+                    .Select(computer => new
+                    {
+                        Osystem = os.Name,
+                        computer.Id,
+                        computer.Brand,
+                        computer.Type,
+                        computer.Memory,
+                        computer.Display
+                    })
+                    .First())
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = computers };
+        }
+
+        [HttpGet("~/api/query/filters")]
+        public object GetComputersByMemoryAndOsVersion(
+            [FromQuery] int minMemory,
+            [FromQuery] int minOsVersion)
+        {
+            var computers = context.Computers
+                .Where(computer => computer.Memory >= minMemory && computer.Osys.Version >= minOsVersion)
+                .Select(computer => new
+                {
+                    computer.Id,
+                    computer.Brand,
+                    computer.Type,
+                    computer.Display,
+                    computer.Memory,
+                    computer.CreatedTime,
+                    Osystem = new
+                    {
+                        computer.Osys.Id,
+                        computer.Osys.Name,
+                        computer.Osys.Version
+                    }
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = computers };
+        }
+
+        [HttpGet("~/api/query/latest")]
+        public object GetLatestComputers()
+        {
+            var computers = context.Computers
+                .OrderByDescending(computer => computer.CreatedTime)
+                .Select(computer => new
+                {
+                    computer.Id,
+                    computer.Brand,
+                    computer.Type,
+                    computer.Display,
+                    computer.Memory,
+                    computer.CreatedTime,
+                    Osystem = new
+                    {
+                        computer.Osys.Id,
+                        computer.Osys.Name,
+                        computer.Osys.Version
+                    }
+                })
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = computers };
+        }
+
+        [HttpGet("~/api/query/brand-summary")]
+        public object GetBrandSummary()
+        {
+            var summary = context.Computers
+                .GroupBy(computer => computer.Brand)
+                .Select(group => new
+                {
+                    Brand = group.Key,
+                    ComputerCount = group.Count()
+                })
+                .OrderBy(summary => summary.Brand)
+                .ToList();
+
+            return new { message = "Sikeres lekérdezés", result = summary };
+        }
     }
 }
